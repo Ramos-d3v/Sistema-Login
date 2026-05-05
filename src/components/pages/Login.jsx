@@ -1,26 +1,16 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { DB } from '../../DB/DB.js';
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-
-    const DB = [
-        {
-            email:"teste@gmail.com",
-            password:"1234"
-        },
-        {
-            email:"teste1@gmail.com",
-            password:"1234"
-        },
-    ]
-
+    const [mockData, setMockData] = useState(DB)
     const handleLogin = (e) =>{
         e.preventDefault();
-
-        const findUser = DB.find(user => user.email === email && user.password === password)
+        console.log(mockData);
+        
+        const findUser = mockData.find(user => user.email === email && user.password === password)
 
         if(findUser){
             alert("Logado com sucesso");
