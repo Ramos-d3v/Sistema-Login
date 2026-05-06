@@ -96,9 +96,31 @@ const Dashboard = () => {
                         </button>
                     </form>
                 </div>
+
+                {/* Lado Direito: Lista de Usuários (Visualização do Banco) */}
+                <div className='flex-1 flex flex-col'>
+                    <h2 className='text-xl font-medium text-white mb-6'>Usuários no Sistema</h2>
+                    
+                    <div className='bg-zinc-950 flex-1 rounded-lg border border-zinc-800 p-4 overflow-y-auto max-h-[300px]'>
+                        {mockData.length === 0 ? (
+                            <p className='text-zinc-500 text-sm italic'>Nenhum usuário cadastrado.</p>
+                        ) : (
+                            <ul className='flex flex-col gap-3'>
+                                {mockData.map((user, index) => (
+                                    <li key={index} className='flex flex-col border-b border-zinc-800/50 pb-3 last:border-0 last:pb-0'>
+                                        <span className='text-sm font-medium text-zinc-200'>{user.email}</span>
+                                        <span className='text-xs text-zinc-500'>Senha: {user.password}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                </div>
+
             </div>
+            
         </div>
-    )   
+    )
 }
 
 export default Dashboard
