@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DB } from '../../DB/DB.js';
 const Login = () => {
@@ -6,11 +6,32 @@ const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [mockData, setMockData] = useState(DB)
+    
+    
+        useEffect(() => {
+            const usuariosSalvos = localStorage.getItem("usuariosApp")
+
+            if(!usuariosSalvos){
+                localStorage.setItem("usuariosApp", JSON.stringify(mockData))
+            }
+
+        } ,[])
+
     const handleLogin = (e) =>{
         e.preventDefault();
+
         console.log(mockData);
-        
-        const findUser = mockData.find(user => user.email === email && user.password === password)
+
+        const dataAtualizadoTexto = localStorage.getItem("usuariosApp") 
+        let bancoAtualizado = null;
+
+        if (dataAtualizadoTexto) {
+            bancoAtualizado = JSON.parse(dataAtualizadoTexto);
+        }else{
+            bancoAtualizado = mockData;
+        }
+
+        const findUser = bancoAtualizado.find(user => user.email === email && user.password === password)
 
         if(findUser){
             alert("Logado com sucesso");
