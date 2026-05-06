@@ -50,7 +50,7 @@ const Dashboard = () => {
             <div className='w-full max-w-3xl flex justify-between items-center mb-8'>
                 <h1 className='text-3xl font-semibold tracking-tight'>Painel Admin</h1>
                 <button 
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/")}
                     className='bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm font-medium rounded-lg px-4 py-2 hover:bg-zinc-700 hover:text-white transition-all'
                 >
                     Sair

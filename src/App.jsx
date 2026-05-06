@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
           {/* ROta para login */}
-          <Route path='/login' element={<Login/>}></Route>
+          <Route path='/' element={<Login/>}></Route>
 
           {/* Rota para depois de logado */}
           <Route path='/dashboard' element={<Dashboard/>}></Route>  
