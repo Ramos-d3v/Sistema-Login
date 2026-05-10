@@ -45,6 +45,8 @@ const Login = () => {
         <h1 className='text-3xl font-semibold mb-8 tracking-tight'>Sistema de Login</h1>
         
         <div className='bg-zinc-900 border border-zinc-800 p-8 sm:p-10 rounded-2xl shadow-2xl w-11/12 max-w-sm'>
+            
+            {/* O onSubmit volta para a tag form */}
             <form className='flex flex-col w-full' onSubmit={handleLogin}>
                 
                 <h2 className='text-sm font-medium text-zinc-400 mb-2'>E-mail</h2>
@@ -67,12 +69,22 @@ const Login = () => {
                     required
                 />
                 
-                <button 
-                    type='submit' 
-                    className='bg-zinc-50 text-zinc-950 font-semibold rounded-lg w-full py-3 hover:bg-zinc-200 transition-colors '
-                >
-                    Entrar
-                </button>
+                <div className='flex gap-4'>
+                    <button 
+                        type='submit' 
+                        className='bg-zinc-50 text-zinc-950 font-semibold rounded-lg w-full py-3 hover:bg-zinc-200 transition-colors'
+                    >
+                        Entrar
+                    </button>
+
+                    <button
+                        type='button' 
+                        onClick={() => navigate("/register")} 
+                        className='bg-zinc-800 border border-zinc-700 text-zinc-300 font-semibold rounded-lg w-full py-3 hover:bg-zinc-700 hover:text-white transition-colors'
+                    >
+                        Cadastrar
+                    </button>
+                </div>
 
             </form>
 

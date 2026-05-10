@@ -45,6 +45,52 @@ app.post("/api/login", async (req, res) => {
     }
 })
 
+// Criando rota de cadastro de usuarios
+app.post("/api/register", async (req, res) => {
+    try {
+        
+        const {email, password} = req.body
+
+        const db = await getDbConnection();
+        
+        const hashPassword = await bcrypt.hash(password , 10)
+
+        const users = await db.get(
+                `SELECT * FROM users WHERE email = ?`, [email]
+            )
+
+        if (users) {
+            return res.status(409).json({
+                message: "Usuario ja cadastrado"
+            })
+        }
+
+        const result = await db.run(`
+                INSERT INTO users (email, password) VALUES (?, ?)
+            `, [email, hashPassword])
+        
+        res.status(200).json({
+            message: "Usuario cadastrado com sucesso",
+            id: result.lastID 
+        })
+
+    } catch (error) {
+        console.error("Erro no servidor")
+        res.status(500).json({
+            error: "erro inerno no servidor"
+        })
+    }
+
+})
+
+
+
+//Rota para listar usuarios
+app.get("/api/getUsers", (req, res) => {
+    
+})
+
+
 app.listen(3000, async () => {
     console.log("sevidor rodando na porta 3000")
 
