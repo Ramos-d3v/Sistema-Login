@@ -5,6 +5,8 @@ Um sistema completo de autenticação e painel administrativo (Fullstack). O pro
 ## ✨ Funcionalidades
 
 * **Autenticação Real de Usuários:** Validação de credenciais (e-mail e senha) através de requisições HTTP (`POST /api/login`).
+* **Cadastro de Novos Usuários:** Criação de novos usuários com requisição ao servidor (`POST /api/register`), garantindo que não existam e-mails duplicados.
+* **Gestão de Usuários (Dashboard):** Listagem de todos os usuários cadastrados e função de exclusão de contas através de requisições (`DELETE /api/users/:id`).
 * **Segurança com Criptografia:** Senhas não são salvas em texto puro; o sistema utiliza a biblioteca `bcrypt` para gerar hashes seguros no banco de dados.
 * **Banco de Dados Integrado:** Persistência de dados realística utilizando SQLite, com criação automática do arquivo de banco de dados (`DB.sqlite`) ao iniciar o servidor.
 * **Seed de Administrador:** Criação automática de um usuário administrador padrão ao iniciar o sistema, lendo credenciais seguras a partir de um arquivo `.env`.
@@ -37,8 +39,9 @@ Siga os passos abaixo para rodar o projeto localmente na sua máquina. Você pre
 ### 1. Preparando o Ambiente
 Faça o clone deste repositório:
 ```bash
-git clone [https://github.com/Ramos-d3v/Sistema-Login.git](https://github.com/Ramos-d3v/Sistema-Login.git)
+git clone https://github.com/Ramos-d3v/Sistema-Login.git
 cd Sistema-Login
+```
 
 ### 2. Rodando o Back-end (API)
 Abra um terminal e navegue até a pasta do back-end (onde está o server.js):
@@ -54,8 +57,9 @@ npm install
 
 # Inicie o servidor
 node server.js
+```
 
-###3. Rodando o Front-end (Interface)
+### 3. Rodando o Front-end (Interface)
 Abra outro terminal, mantendo o back-end rodando, e navegue até a pasta do front-end:
 ```bash
 cd frontend # (Ou o nome da pasta do seu React)
@@ -65,14 +69,10 @@ npm install
 
 # Inicie o servidor de desenvolvimento
 npm run dev
+```
 
-📝 Próximos Passos (Melhorias Futuras)
-[x] ~~Integrar com uma API real (Node.js) e um Banco de Dados estruturado.~~ (Concluído!)
-
-[ ] Implementar Tokens (JWT - JSON Web Tokens) para manter o usuário logado e proteger o acesso direto à rota /dashboard.
-
-[ ] Finalizar as requisições POST do front-end para cadastrar novos usuários a partir do painel Admin.
-
-[ ] Adicionar função de excluir (DELETE) usuários diretamente da lista do Dashboard.
-
-
+## 📝 Próximos Passos (Melhorias Futuras)
+- [x] ~~Integrar com uma API real (Node.js) e um Banco de Dados estruturado.~~ (Concluído!)
+- [x] ~~Finalizar as requisições POST do front-end para cadastrar novos usuários.~~ (Concluído!)
+- [x] ~~Adicionar função de excluir (DELETE) usuários diretamente da lista do Dashboard.~~ (Concluído!)
+- [ ] Implementar Tokens (JWT - JSON Web Tokens) para manter o usuário logado e proteger o acesso direto à rota `/dashboard`.
