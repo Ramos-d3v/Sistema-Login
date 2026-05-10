@@ -1,39 +1,78 @@
-# 🔐 React Admin & Login System
+# 🔐 Fullstack Admin & Login System (React + Node.js)
 
-Um sistema front-end de autenticação e painel administrativo desenvolvido com React. O projeto simula um fluxo real de login e registro de usuários, utilizando o `localStorage` do navegador para garantir a persistência dos dados sem a necessidade de um back-end.
+Um sistema completo de autenticação e painel administrativo (Fullstack). O projeto possui um front-end moderno em React que se comunica com uma API RESTful construída em Node.js, utilizando banco de dados estruturado (SQLite) e criptografia real de senhas, simulando o ambiente de produção de uma aplicação web segura.
 
 ## ✨ Funcionalidades
 
-*   **Autenticação de Usuários:** Tela de login funcional que valida credenciais (e-mail e senha).
-*   **Rotas Protegidas (Simulação):** Navegação fluida entre telas públicas (Login) e privadas (Dashboard) utilizando o React Router.
-*   **Painel Administrativo (Dashboard):** Área logada que permite o cadastro de novos usuários no sistema.
-*   **Persistência de Dados:** Uso de `localStorage` para manter os usuários salvos mesmo após o recarregamento da página ou troca de rotas.
-*   **Interface UI/UX:** Design limpo, minimalista e responsivo focado em *Dark Mode*, construído inteiramente com Tailwind CSS.
+* **Autenticação Real de Usuários:** Validação de credenciais (e-mail e senha) através de requisições HTTP (`POST /api/login`).
+* **Segurança com Criptografia:** Senhas não são salvas em texto puro; o sistema utiliza a biblioteca `bcrypt` para gerar hashes seguros no banco de dados.
+* **Banco de Dados Integrado:** Persistência de dados realística utilizando SQLite, com criação automática do arquivo de banco de dados (`DB.sqlite`) ao iniciar o servidor.
+* **Seed de Administrador:** Criação automática de um usuário administrador padrão ao iniciar o sistema, lendo credenciais seguras a partir de um arquivo `.env`.
+* **Interface UI/UX:** Design limpo, minimalista e responsivo focado em *Dark Mode*, construído inteiramente com Tailwind CSS.
+* **Integração via CORS:** Configuração de cross-origin ativada no back-end para permitir a comunicação fluida com o front-end rodando em portas distintas.
 
 ## 🛠️ Tecnologias Utilizadas
 
-*   **[React.js](https://react.dev/)** - Biblioteca principal para construção da interface.
-*   **[Vite](https://vitejs.dev/)** - Ferramenta de build super rápida para iniciar o projeto.
-*   **[React Router DOM](https://reactrouter.com/)** - Gerenciamento de rotas e navegação da SPA (Single Page Application).
-*   **[Tailwind CSS](https://tailwindcss.com/)** - Framework utilitário de CSS para estilização rápida e padronizada.
-*   **JavaScript (ES6+)** - Lógica de manipulação de arrays e objetos.
+### Front-end
+* **[React.js](https://react.dev/)** - Biblioteca principal para construção da interface.
+* **[Vite](https://vitejs.dev/)** - Ferramenta de build super rápida.
+* **[React Router DOM](https://reactrouter.com/)** - Gerenciamento de rotas e navegação da SPA.
+* **[Tailwind CSS](https://tailwindcss.com/)** - Framework utilitário de CSS.
+
+### Back-end
+* **[Node.js](https://nodejs.org/)** - Ambiente de execução JavaScript (Server-side).
+* **[Express.js](https://expressjs.com/)** - Framework minimalista para criação das rotas da API.
+* **[SQLite](https://sqlite.org/)** - Motor de banco de dados relacional (arquivo local).
+* **[Bcrypt](https://www.npmjs.com/package/bcrypt)** - Biblioteca para hash e criptografia de senhas.
+* **[Dotenv](https://www.npmjs.com/package/dotenv)** - Gerenciamento de variáveis de ambiente.
 
 ## 🚀 Como Executar o Projeto
 
-Siga os passos abaixo para rodar o projeto localmente na sua máquina.
+Siga os passos abaixo para rodar o projeto localmente na sua máquina. Você precisará rodar o Back-end e o Front-end simultaneamente em terminais separados.
 
 ### Pré-requisitos
-Você precisará ter o [Node.js](https://nodejs.org/) instalado na sua máquina.
+* [Node.js](https://nodejs.org/) instalado na máquina.
+* Git instalado.
 
-### Passos
-1. Faça o clone deste repositório:
-   ```bash
-   git clone https://github.com/Ramos-d3v/Sistema-Login.git
+### 1. Preparando o Ambiente
+Faça o clone deste repositório:
+```bash
+git clone [https://github.com/Ramos-d3v/Sistema-Login.git](https://github.com/Ramos-d3v/Sistema-Login.git)
+cd Sistema-Login
 
+### 2. Rodando o Back-end (API)
+Abra um terminal e navegue até a pasta do back-end (onde está o server.js):
+```bash
+cd backend # (Ou o nome da pasta onde seu server está)
+
+# Instale as dependências
+npm install
+
+# Crie um arquivo .env na raiz do backend e adicione as seguintes variáveis:
+# EMAIL_ADMIN=seu_email
+# PASSWORD_ADMIN=sua_senha
+
+# Inicie o servidor
+node server.js
+
+###3. Rodando o Front-end (Interface)
+Abra outro terminal, mantendo o back-end rodando, e navegue até a pasta do front-end:
+```bash
+cd frontend # (Ou o nome da pasta do seu React)
+
+# Instale as dependências
+npm install
+
+# Inicie o servidor de desenvolvimento
+npm run dev
 
 📝 Próximos Passos (Melhorias Futuras)
-[ ] Implementar Context API para proteger a rota do Dashboard via código.
+[x] ~~Integrar com uma API real (Node.js) e um Banco de Dados estruturado.~~ (Concluído!)
 
-[ ] Adicionar função de excluir ou editar usuários na lista do Dashboard.
+[ ] Implementar Tokens (JWT - JSON Web Tokens) para manter o usuário logado e proteger o acesso direto à rota /dashboard.
 
-[ ] Integrar com uma API real (Node.js/Java) e um Banco de Dados estruturado.
+[ ] Finalizar as requisições POST do front-end para cadastrar novos usuários a partir do painel Admin.
+
+[ ] Adicionar função de excluir (DELETE) usuários diretamente da lista do Dashboard.
+
+
