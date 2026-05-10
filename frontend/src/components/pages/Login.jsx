@@ -1,44 +1,41 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { DB } from '../../DB/DB.js';
+
 const Login = () => {
     
     const navigate = useNavigate();
+    
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [mockData, setMockData] = useState(DB)
-    
-    
-        useEffect(() => {
-            const usuariosSalvos = localStorage.getItem("usuariosApp")
 
-            if(!usuariosSalvos){
-                localStorage.setItem("usuariosApp", JSON.stringify(mockData))
+    const [message , setMessage] = useState("")
+
+    const handleLogin = async (e) =>{
+        e.preventDefault();
+        setMessage("Fazendo o login...")
+
+        try {
+            const response = await fetch("http://localhost:3000/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({email, password})
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setMessage("Login realizado com sucesso")
+                navigate("/dashboard")
+            }else{
+                setMessage(data.error || "Erro ao fazer login")
             }
 
-        } ,[])
 
-    const handleLogin = (e) =>{
-        e.preventDefault();
-
-        console.log(mockData);
-
-        const dataAtualizadoTexto = localStorage.getItem("usuariosApp") 
-        let bancoAtualizado = null;
-
-        if (dataAtualizadoTexto) {
-            bancoAtualizado = JSON.parse(dataAtualizadoTexto);
-        }else{
-            bancoAtualizado = mockData;
-        }
-
-        const findUser = bancoAtualizado.find(user => user.email === email && user.password === password)
-
-        if(findUser){
-            alert("Logado com sucesso");
-            navigate("/dashboard");
-        }else{
-            alert("Email ou senha errados");
+        } catch (error) {
+            console.error(error);
+            setMessage("Erro ao conectar ao servidor")
         }
     };
     
@@ -72,12 +69,19 @@ const Login = () => {
                 
                 <button 
                     type='submit' 
-                    className='bg-zinc-50 text-zinc-950 font-semibold rounded-lg w-full py-3 hover:bg-zinc-200 transition-colors'
+                    className='bg-zinc-50 text-zinc-950 font-semibold rounded-lg w-full py-3 hover:bg-zinc-200 transition-colors '
                 >
                     Entrar
                 </button>
 
             </form>
+
+            {message && (
+                <p className="mt-4 text-center text-sm font-medium text-amber-500">
+                    {message}
+                </p>
+            )}
+
         </div>
         
     </div>
