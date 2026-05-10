@@ -102,9 +102,47 @@ app.get('/api/getUsers', async (req, res) => {
             error: "Erro ao se conectar com servidor."
         })
     }
+})
+
+app.delete('/api/users/:id', async (req, res) => {
+
+    try {
+        
+        const { id } = req.params
+
+        const db = await getDbConnection();
+
+        if (!id) {
+            return res.status(400).json({
+                message: "ID não fornecido"
+            })
+        }
+
+        const result = await db.run(`
+                DELETE FROM users WHERE id = ?;
+            `, [id])
+
+        if (result.changes === 0) {
+            return res.status(404).json({
+                error: "Usuario não encontrado"
+            })
+        }
+
+        res.status(200).json({
+            message: "Usuario deletado com sucesso"
+        })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: "Erro ao conectar com servidor"
+        })
+    }
+
 
 
 })
+
 
 app.listen(3000, async () => {
     console.log("sevidor rodando na porta 3000")
