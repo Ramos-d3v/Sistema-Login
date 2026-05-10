@@ -1,77 +1,103 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-    
-    const navigate = useNavigate(); 
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const fetchUsers = async () => {
+        try {
+            const response = await fetch("http://localhost:3000/api/getUsers");
+            const data = await response.json();
+            
+            if (response.ok) {
+                setUsers(data);
+            }
+        } catch (error) {
+            console.error("Erro ao carregar usuários:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-    },[])
-
-    const handleRegister = (e) =>{
-        e.preventDefault();
-    }
-
+        fetchUsers();
+    }, []);
 
     return (
-    <div className='flex min-h-screen items-center justify-center flex-col bg-zinc-950 text-zinc-50 font-sans p-6'>
-            
-            <div className='w-full max-w-3xl flex justify-between items-center mb-8'>
-                <h1 className='text-3xl font-semibold tracking-tight'>Painel Admin</h1>
+        <div className='min-h-screen bg-zinc-950 text-zinc-50 font-sans p-4 sm:p-8'>
+            {/* Header do Dashboard */}
+            <div className='max-w-4xl mx-auto flex justify-between items-center mb-10'>
+                <div>
+                    <h1 className='text-2xl font-bold tracking-tight'>Painel de Controle</h1>
+                    <p className='text-zinc-500 text-sm'>Gerenciamento de usuários cadastrados</p>
+                </div>
                 <button 
                     onClick={() => navigate("/")}
-                    className='bg-zinc-800 border border-zinc-700 text-zinc-300 text-sm font-medium rounded-lg px-4 py-2 hover:bg-zinc-700 hover:text-white transition-all'
+                    className='bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-800 px-4 py-2 rounded-lg text-sm font-medium transition-all'
                 >
-                    Sair
+                    Sair do Sistema
                 </button>
             </div>
-            
-            <div className='bg-zinc-900 border border-zinc-800 p-8 sm:p-10 rounded-2xl shadow-2xl w-full max-w-3xl mb-8 flex flex-col md:flex-row gap-10'>
-                
-                {/* Lado Esquerdo: Formulário de Cadastro */}
-                <div className='flex-1 border-b md:border-b-0 md:border-r border-zinc-800 pb-8 md:pb-0 md:pr-8'>
-                    <h2 className='text-xl font-medium text-white mb-6'>Cadastrar Cliente</h2>
 
-                    <form onSubmit={handleRegister} className='flex flex-col gap-5'>
-                        <div>
-                            <h3 className='text-sm font-medium text-zinc-400 mb-2'>E-mail do cliente</h3>
-                            <input 
-                                type="email" 
-                                placeholder='exemplo@gmail.com'
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className='bg-zinc-950 w-full border border-zinc-800 rounded-lg p-3 text-zinc-200 placeholder-zinc-700 outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all'
-                                required 
-                            />
+            {/* Container Principal */}
+            <div className='max-w-4xl mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl overflow-hidden'>
+                <div className='p-6 border-b border-zinc-800 flex justify-between items-center bg-zinc-900/50'>
+                    <h2 className='font-semibold text-zinc-200'>Lista de Usuários</h2>
+                    <span className='bg-zinc-800 text-zinc-400 text-xs px-2 py-1 rounded-full'>
+                        {users.length} total
+                    </span>
+                </div>
+
+                <div className='p-6'>
+                    {loading ? (
+                        <p className='text-center text-zinc-500 animate-pulse'>Carregando dados...</p>
+                    ) : users.length === 0 ? (
+                        <div className='text-center py-10'>
+                            <p className='text-zinc-500 italic'>Nenhum usuário encontrado no banco de dados.</p>
                         </div>
+                    ) : (
+                        <div className='grid gap-3'>
+                            {users.map((user) => (
+                                <div 
+                                    key={user.id} 
+                                    className='group flex items-center justify-between p-4 bg-zinc-950/50 border border-zinc-800 rounded-xl hover:border-zinc-600 transition-all'
+                                >
+                                    <div className='flex items-center gap-4'>
+                                        {/* Avatar Icon */}
+                                        <div className='w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-400 group-hover:bg-zinc-50 group-hover:text-zinc-950 transition-colors'>
+                                            {user.email.charAt(0).toUpperCase()}
+                                        </div>
+                                        
+                                        <div className='flex flex-col'>
+                                            <span className='text-sm font-medium text-zinc-200'>{user.email}</span>
+                                            <span className='text-[10px] uppercase tracking-wider text-zinc-600'>Acesso padrão</span>
+                                        </div>
+                                    </div>
 
-                        <div>
-                            <h3 className='text-sm font-medium text-zinc-400 mb-2'>Senha temporária</h3>
-                            <input 
-                                type="password" 
-                                placeholder='••••••••'
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className='bg-zinc-950 w-full border border-zinc-800 rounded-lg p-3 text-zinc-200 placeholder-zinc-700 outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 transition-all'
-                                required 
-                            />
+                                    <div className='flex items-center gap-3'>
+                                        <span className='text-xs font-mono text-zinc-700 bg-zinc-900 px-2 py-1 rounded'>
+                                            ID: {user.id}
+                                        </span>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
+                    )}
+                </div>
 
-                        <button 
-                            type='submit'
-                            className='bg-zinc-50 text-zinc-950 font-semibold rounded-lg w-full py-3 mt-2 hover:bg-zinc-200 transition-colors'
-                        >
-                            Registrar
-                        </button>
-                    </form>
+                <div className='p-4 bg-zinc-800/30 border-t border-zinc-800 text-center'>
+                    <button 
+                        onClick={fetchUsers}
+                        className='text-xs text-zinc-500 hover:text-zinc-300 transition-colors underline underline-offset-4'
+                    >
+                        Atualizar lista manualmente
+                    </button>
                 </div>
             </div>
-            
         </div>
-    )
-}
+    );
+};
 
-export default Dashboard
+export default Dashboard;
