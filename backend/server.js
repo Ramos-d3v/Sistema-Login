@@ -86,36 +86,33 @@ app.post("/api/register", async (req, res) => {
 
 
 //Rota para listar usuarios
-app.get("/api/getUsers", async (req, res) => {
+app.get('/api/getUsers', async (req, res) => {
 
     try {
+        
         const db = await getDbConnection();
-        const result = await db.all(`
-                SELECT id, email FROM users; 
-            `)
-
-        res.status(200).json(result)
-
+        
+        const users = await db.all(`SELECT id, email FROM users`);
+        
+        res.status(200).json(users)
+    
     } catch (error) {
         console.error(error);
         res.status(500).json({
-            error: "Erro interno no servidor"
+            error: "Erro ao se conectar com servidor."
         })
     }
-    
-    
-})
 
+
+})
 
 app.listen(3000, async () => {
     console.log("sevidor rodando na porta 3000")
 
     try {
         await getDbConnection();
-        console.log("BAnco de dados criado com sucesso");
-        
+        console.log("Banco de dados criado com sucesso");
     } catch (error) {
         console.error("Erro ao criar o banco de dados");
-        
     }
 })
